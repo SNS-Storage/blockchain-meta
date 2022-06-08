@@ -373,6 +373,7 @@ function App() {
                         config.contract.abi,
                         config.contract.address
                     );
+                    console.log("contract: ",contract)
                     setSelectedAddress(provider.selectedAddress);
                     getQuoteFromNetwork();
                     provider.on("accountsChanged", function (accounts) {
@@ -409,7 +410,7 @@ function App() {
                 let privateKey = "6b637f4bcc4409db444d62b5864036674e6870e5ce3803a0473d13e24ab86f31";
                 let userAddress = "0x95E1269127C7B200d3676B83E4a38D3A0c53B045";
                 let nonce = await contract.methods.getNonce(userAddress).call();
-                let functionSignature = contract.methods.diskSpace(newQuote).encodeABI();
+                let functionSignature = contract.methods.diskSpace(parseInt(newQuote)).encodeABI();
                 let messageToSign = constructMetaTransactionMessage(nonce, chainId, functionSignature, config.contract.address);
                 
                 let {signature} = web3.eth.accounts.sign("0x" + messageToSign.toString("hex"), privateKey);
