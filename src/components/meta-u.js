@@ -20,7 +20,7 @@ let abi = require('ethereumjs-abi')
 let sigUtil = require("eth-sig-util");
 let config = {
     contract: {
-        address: "0x8d007107468c6689aBd2085BCaFc47E1EfCbc0dD",
+        address: "0xe86B69852E64Ddd5718fb0d99d0477F2b5EA9077",
         abi: [
             {
                 "inputs": [],
@@ -89,13 +89,6 @@ let config = {
             },
             {
                 "inputs": [],
-                "name": "payment",
-                "outputs": [],
-                "stateMutability": "payable",
-                "type": "function"
-            },
-            {
-                "inputs": [],
                 "stateMutability": "nonpayable",
                 "type": "constructor"
             },
@@ -125,54 +118,11 @@ let config = {
                 "type": "event"
             },
             {
-                "anonymous": false,
-                "inputs": [
-                    {
-                        "indexed": false,
-                        "internalType": "string",
-                        "name": "",
-                        "type": "string"
-                    },
-                    {
-                        "indexed": false,
-                        "internalType": "address",
-                        "name": "",
-                        "type": "address"
-                    },
-                    {
-                        "indexed": false,
-                        "internalType": "string",
-                        "name": "",
-                        "type": "string"
-                    }
-                ],
-                "name": "smith",
-                "type": "event"
-            },
-            {
-                "anonymous": false,
-                "inputs": [
-                    {
-                        "indexed": false,
-                        "internalType": "string",
-                        "name": "",
-                        "type": "string"
-                    },
-                    {
-                        "indexed": false,
-                        "internalType": "address",
-                        "name": "",
-                        "type": "address"
-                    },
-                    {
-                        "indexed": false,
-                        "internalType": "uint256",
-                        "name": "",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "smith1",
-                "type": "event"
+                "inputs": [],
+                "name": "payment",
+                "outputs": [],
+                "stateMutability": "payable",
+                "type": "function"
             },
             {
                 "inputs": [],
@@ -259,6 +209,32 @@ let config = {
                 "type": "function"
             },
             {
+                "inputs": [],
+                "name": "space",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "totalAmount",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
                 "inputs": [
                     {
                         "internalType": "address",
@@ -310,12 +286,12 @@ let config = {
         ]
     },
     apiKey: {
-        test: "0hmVGSBGZ.7aaf41e0-c990-4f93-b0fe-7ad9cd834808",
-        prod: "0hmVGSBGZ.7aaf41e0-c990-4f93-b0fe-7ad9cd834808"
+        test: "PhVPMwM9Z.0994e269-bb81-4e29-afb4-775e9cf66921",
+        prod: "PhVPMwM9Z.0994e269-bb81-4e29-afb4-775e9cf66921"
     }
 }
 
-let chainId = 42;
+let chainId = 80001;
 let web3, walletWeb3;
 let contract;
 
@@ -358,7 +334,7 @@ function App() {
                 // Ethereum user detected. You can now use the provider.
                 const provider = window["ethereum"];
                 await provider.enable();
-                let kovanProvider = new Web3.providers.HttpProvider("https://kovan.infura.io/v3/8d3c38eeb47f4c12bfba125b8d2816a0");
+                let kovanProvider = new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/TfRVLAexq-RYDNka2_MOtUcyXAeEqtLb");
                 setLoadingMessage("Initializing Biconomy ...");
                 const biconomy = new Biconomy(kovanProvider, { apiKey: config.apiKey.test, debug: true });
 
@@ -481,7 +457,7 @@ function App() {
                 let { r, s, v } = getSignatureParameters(signature);
                 sendSignedTransaction(userAddress, functionSignature, r, s, v);
 
-                calTotalCost();
+                // calTotalCost();
 
             } else {
                 console.log("Sending normal transaction");
@@ -647,6 +623,7 @@ function App() {
                 let gasLimit = await contract.methods
                     .executeMetaTransaction(userAddress, functionData, r, s, v)
                     .estimateGas({ from: userAddress });
+
                 let gasPrice = await web3.eth.getGasPrice();
                 let tx = contract.methods
                     .executeMetaTransaction(userAddress, functionData, r, s, v)
@@ -659,10 +636,12 @@ function App() {
                     showInfoMessage(`Transaction sent by relayer with hash ${hash}`);
                 }).once("confirmation", function (confirmationNumber, receipt) {
                     console.log(receipt);
+
                     setTransactionHash(receipt.transactionHash);
                     showSuccessMessage("Transaction confirmed on chain");
                     getQuoteFromNetwork();
                 });
+
             } catch (error) {
                 console.log(error);
             }
@@ -732,10 +711,10 @@ function App() {
             </Button>
                     </div>
                 </div>
-                <div>Total amount to be paid for {cal}</div>
+                {/* <div>Total amount to be paid for {cal}</div>
                 <Button variant="contained" color="primary" onClick={payment}>
                             Pay
-                </Button>
+                </Button> */}
             </section>
             <Backdrop className={classes.backdrop} open={backdropOpen} onClick={handleClose}>
                 <CircularProgress color="inherit" />

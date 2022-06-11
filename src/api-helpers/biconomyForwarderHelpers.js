@@ -2,7 +2,7 @@ import {ethers} from 'ethers';
 const { config } = require("../config");
 const abi = require("ethereumjs-abi");
 let helperAttributes = {};
-let supportedNetworks = [42,4,5]; //add more
+let supportedNetworks = [42,4,5,80001]; //add more
 helperAttributes.ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 //todo
 //update baseURL in config for prod 

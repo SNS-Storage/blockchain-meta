@@ -13,7 +13,7 @@ import Box from '@material-ui/core/Box';
 // import Ethers_EIP2771_PersonalSign from './components/Ethers_EIP2771_PersonalSign';
 // import Web3_Custom_EIP712Sign from './components/Web3_Custom_EIP712Sign';
 import Web3_Custom_PersonalSign from './components/Web3_Custom_PersonalSign';
-import Meta from './components/meta';
+import Meta from './components/meta-u';
 // import Web3_EIP2771_EIP712Sign from './components/Web3_EIP2771_EIP712Sign';
 // import Web3_EIP2771_PersonalSign from './components/Web3_EIP2771_PersonalSign';
 // import Web3_Custom_EIP712Sign_API from './components/Web3_Custom_EIP712Sign_API';
@@ -100,8 +100,8 @@ function App() {
           aria-label="Vertical tabs example"
           className={classes.tabs}
         >
-          <Tab label="Web3 + Custom + EIP712 Sign" {...a11yProps(0)} />
-          <Tab label="Web3 + Custom + Personal Sign" {...a11yProps(1)} />
+          <Tab label="Home" {...a11yProps(0)} />
+          <Tab label="Meta" {...a11yProps(1)} />
           {/* <Tab label="Web3 + EIP2771 + EIP712 Sign" {...a11yProps(2)} />
           <Tab label="Web3 + EIP2771 + Personal Sign" {...a11yProps(3)} />
           <Tab label="Ethers + Custom + EIP712 Sign" {...a11yProps(4)} />
@@ -126,9 +126,10 @@ function App() {
           */}
         </Tabs>
 
-        {/* <TabPanel value={value} index={0}>
-          <Web3_Custom_EIP712Sign />
-        </TabPanel> */}
+        <TabPanel value={value} index={0}>
+          <h1>Welcome to Sync N Sync </h1>
+          {/* <Web3_Custom_EIP712Sign /> */}
+        </TabPanel>
         <TabPanel value={value} index={1}>
           <Meta />
         </TabPanel>
